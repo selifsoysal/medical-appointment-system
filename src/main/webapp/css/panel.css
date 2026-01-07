@@ -1,17 +1,14 @@
-/* Panellerde body'nin flex özelliğini SIFIRLIYORUZ (Login'den farkı bu) */
 body {
     display: block;
     height: auto;
 }
 
-/* İçeriği ortaya hizala ama geniş bırak */
 .container {
     max-width: 1100px;
-    margin: 40px auto; /* Üstten boşluk */
+    margin: 40px auto;
     padding: 0 20px;
 }
 
-/* Badge (Durum Etiketleri) */
 .badge {
     padding: 4px 10px;
     border-radius: 12px;
@@ -22,7 +19,6 @@ body {
 .status-CONFIRMED { background: #e8f5e9; color: #2e7d32; }
 .status-REJECTED { background: #ffebee; color: #c62828; }
 
-/* --- PATIENT SAYFASI İÇİN EKSTRALAR (Slot Grid) --- */
 .slots-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -43,11 +39,10 @@ body {
 .slot-btn:hover:not(.taken) { background: var(--primary); color: white; }
 .slot-btn.taken { background: #eee; border-color: #ccc; color: #999; cursor: not-allowed; }
 
-/* Modal (Popup) */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5);
-    display: none; /* JS ile açılır */
+    display: none;
     align-items: center; justify-content: center;
     z-index: 1000;
 }

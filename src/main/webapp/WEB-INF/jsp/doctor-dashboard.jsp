@@ -17,7 +17,6 @@
     <h2>Welcome, Dr. ${sessionScope.loggedDoctor.fullName}</h2>
     <p style="color:#666;">Manage today's and upcoming appointments here.</p>
 
-    <!-- Success / Error Messages -->
     <c:if test="${not empty successMessage}">
         <div class="message message-success">${successMessage}</div>
     </c:if>

@@ -16,7 +16,6 @@
 <div class="container">
     <h2>My Appointments</h2>
 
-    <!-- Success / Error Messages -->
     <c:if test="${not empty successMessage}">
         <div class="message message-success">${successMessage}</div>
     </c:if>
