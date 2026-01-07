@@ -18,6 +18,7 @@ public class Doctor {
     private String fullName;
     private String email;
     private String specialization;
+    private String password;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     private List<TimeSlot> timeSlots;

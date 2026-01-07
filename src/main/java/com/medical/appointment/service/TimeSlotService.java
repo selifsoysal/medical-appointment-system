@@ -19,30 +19,28 @@ public class TimeSlotService {
         this.timeSlotRepository = timeSlotRepository;
     }
 
-    public List<TimeSlot> getOrCreateDailySlots(Doctor doctor, LocalDate date) {
+    public List<TimeSlot> getSlotsByDate(Doctor doctor, LocalDate date) {
+        LocalDate today = LocalDate.now();
 
-        if (date.isBefore(LocalDate.now().plusDays(1)) || date.isAfter(LocalDate.now().plusMonths(1))) {
+        if (date.isBefore(today) || date.isAfter(today.plusMonths(1))) {
             return List.of();
         }
 
-        List<TimeSlot> existing = timeSlotRepository.findByDoctorIdAndDateOrderByStartTimeAsc(doctor.getId(), date);
-        if (!existing.isEmpty()) return existing;
+        List<TimeSlot> slots = timeSlotRepository.findByDoctorIdAndDateOrderByStartTimeAsc(doctor.getId(), date);
 
-        List<TimeSlot> generated = new ArrayList<>();
-        LocalTime start = LocalTime.of(9, 0);
-        LocalTime end = LocalTime.of(17, 0);
-
-        while (start.isBefore(end)) {
-            TimeSlot slot = new TimeSlot();
-            slot.setDoctor(doctor);
-            slot.setDate(date);
-            slot.setStartTime(start);
-            slot.setAvailable(true);
-            generated.add(slot);
-            start = start.plusMinutes(30);
+        if (date.equals(today)) {
+            LocalTime currentTime = LocalTime.now();
+            
+            return slots.stream()
+                    .filter(slot -> slot.getStartTime().isAfter(currentTime)) 
+                    .toList();
         }
 
-        return timeSlotRepository.saveAll(generated);
+        return slots;
+    }
+
+    public List<TimeSlot> saveAll(List<TimeSlot> slots) {
+        return timeSlotRepository.saveAll(slots);
     }
 
     public TimeSlot saveTimeSlot(TimeSlot slot) {
@@ -51,5 +49,33 @@ public class TimeSlotService {
 
     public void deleteTimeSlot(TimeSlot slot) {
         timeSlotRepository.delete(slot);
+    }
+
+    public List<TimeSlot> getAllSlots() {
+        return timeSlotRepository.findAll();
+    }
+
+    // ---------------- Otomatik 1 aylık slot oluştur ----------------
+    public void generateMonthlySlots(Doctor doctor) {
+        LocalDate start = LocalDate.now().plusDays(1);
+        LocalDate end = start.plusMonths(1);
+
+        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            List<TimeSlot> existing = getSlotsByDate(doctor, date);
+            if (!existing.isEmpty()) continue;
+
+            List<TimeSlot> slots = new ArrayList<>();
+            LocalTime time = LocalTime.of(9, 0);
+            while (time.isBefore(LocalTime.of(17, 0))) {
+                TimeSlot slot = new TimeSlot();
+                slot.setDoctor(doctor);
+                slot.setDate(date);
+                slot.setStartTime(time);
+                slot.setAvailable(true);
+                slots.add(slot);
+                time = time.plusMinutes(30);
+            }
+            saveAll(slots);
+        }
     }
 }

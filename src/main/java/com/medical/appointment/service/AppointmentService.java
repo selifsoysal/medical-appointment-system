@@ -17,7 +17,8 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final TimeSlotRepository timeSlotRepository;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, TimeSlotRepository timeSlotRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository,
+                              TimeSlotRepository timeSlotRepository) {
         this.appointmentRepository = appointmentRepository;
         this.timeSlotRepository = timeSlotRepository;
     }
@@ -32,6 +33,10 @@ public class AppointmentService {
 
     public Appointment saveAppointment(Appointment appointment) {
         return appointmentRepository.save(appointment);
+    }
+
+    public void deleteAppointment(Appointment appointment) {
+        appointmentRepository.delete(appointment);
     }
 
     public List<Appointment> getAppointmentsByPatient(Long patientId) {
@@ -57,4 +62,5 @@ public class AppointmentService {
         appointment.setDoctorResponse(doctorResponse);
         appointmentRepository.save(appointment);
     }
+    
 }

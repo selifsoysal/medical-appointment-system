@@ -1,0 +1,42 @@
+/* Sayfayı tam ekran yap ve içeriği MERKEZLE */
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('../img/background.png') no-repeat center;
+}
+
+/* Login kartının genişliğini kısıtla */
+.container {
+    width: 100%;
+    max-width: 400px; /* Kart çok geniş olmasın */
+    padding: 20px;
+}
+
+.card { text-align: center; }
+
+/* Toggle Butonları (Doktor/Hasta) */
+.switch-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: #f0f2f5;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.switch-btn {
+    flex: 1;
+    background: transparent;
+    color: #777;
+}
+
+.switch-btn:focus, .switch-btn:hover {
+    background: white;
+    color: var(--primary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.switch-text { margin-top: 15px; font-size: 0.9rem; }
+.switch-text a { color: var(--primary); text-decoration: none; }

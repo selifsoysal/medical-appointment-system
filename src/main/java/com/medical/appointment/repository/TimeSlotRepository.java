@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
 
-    List<TimeSlot> findByDoctorIdOrderByDateAscStartTimeAsc(Long doctorId);
-
     List<TimeSlot> findByDoctorIdAndDateOrderByStartTimeAsc(Long doctorId, LocalDate date);
+
+    List<TimeSlot> findByDoctorIdOrderByDateAscStartTimeAsc(Long doctorId);
 }

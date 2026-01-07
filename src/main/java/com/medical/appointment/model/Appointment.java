@@ -22,8 +22,8 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name = "time_slot_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "time_slot_id", nullable = false, unique = true) // unique = true eklendi
     private TimeSlot timeSlot;
 
     @Enumerated(EnumType.STRING)
@@ -31,5 +31,4 @@ public class Appointment {
     private AppointmentStatus status;
 
     private String doctorResponse;
-
 }

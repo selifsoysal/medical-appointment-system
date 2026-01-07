@@ -19,28 +19,45 @@ public class PatientAuthController {
         this.patientService = patientService;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String email,
-                        @RequestParam String password,
-                        HttpSession session,
-                        Model model) {
+@PostMapping("/login")
+public String login(@RequestParam String email,
+                    @RequestParam String password,
+                    HttpSession session,
+                    Model model) {
 
-        Optional<Patient> result = patientService.login(email, password);
-
-        if (result.isPresent()) {
-            session.setAttribute("loggedPatient", result.get());
-            return "redirect:/patient/dashboard";
-        } else {
-            model.addAttribute("loginError", "Email or password is incorrect!");
-            model.addAttribute("showForm", "patient");
-            return "home";
-        }
+    if (email == null || email.isBlank()) {
+        model.addAttribute("patientError", "Please enter a valid email!");
+        model.addAttribute("emailValue", email);
+        model.addAttribute("showForm", "patient");
+        return "home";
     }
 
-    @GetMapping("/register")
-    public String registerPage() {
-        return "patient-register";
+    if (!email.contains("@")) {
+        model.addAttribute("patientError", "Please enter a valid email!");
+        model.addAttribute("emailValue", email);
+        model.addAttribute("showForm", "patient");
+        return "home";
     }
+
+    if (password == null || password.isBlank()) {
+        model.addAttribute("patientError", "Please enter your password!");
+        model.addAttribute("emailValue", email);
+        model.addAttribute("showForm", "patient");
+        return "home";
+    }
+
+    Optional<Patient> result = patientService.login(email, password);
+    if (result.isPresent()) {
+        session.setAttribute("loggedPatient", result.get());
+        return "redirect:/patient/dashboard";
+    } else {
+        model.addAttribute("patientError", "Email or password is incorrect!");
+        model.addAttribute("emailValue", email);
+        model.addAttribute("showForm", "patient");
+        return "home";
+    }
+}
+
 
     @PostMapping("/register")
     public String register(@ModelAttribute Patient patient, Model model) {
