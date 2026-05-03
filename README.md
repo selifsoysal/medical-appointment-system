@@ -29,7 +29,7 @@ Bu proje, hastane veya klinik ortamlarındaki randevu süreçlerini dijitalleşt
 - Gelen randevuları ve hasta bilgilerini görüntüleme
 
 
-## 📂 Proje Yapısı
+## Proje Yapısı
 
 - `model/`: Veritabanı tablolarına karşılık gelen Entity sınıfları (Doctor, Patient, Appointment, TimeSlot vb.).
 - `repository/`: Spring Data JPA arayüzleri (Veritabanı işlemleri için).
